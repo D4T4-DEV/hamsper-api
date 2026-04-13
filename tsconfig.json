@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext" /* Modern JS features */,
+    "module": "NodeNext" /* Best for modern Node.js ESM */,
+    "moduleResolution": "NodeNext",
+    "rootDir": "./src" /* Source files location */,
+    "outDir": "./dist" /* Compiled JS location */,
+    "esModuleInterop": true /* Compatibility with CommonJS */,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true /* Essential for type safety */,
+    "noUncheckedIndexedAccess": true /* Prevents 'undefined' errors in arrays/objects */,
+    "skipLibCheck": true /* Faster builds */
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
+}

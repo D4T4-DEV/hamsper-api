@@ -1,0 +1,33 @@
+{
+  "name": "hamsper-api",
+  "version": "1.0.0",
+  "description": "API de hampters, para educar sobre el backend de node.js con express",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec tsx src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D4T4-DEV/hamsper-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/D4T4-DEV/hamsper-api/issues"
+  },
+  "homepage": "https://github.com/D4T4-DEV/hamsper-api#readme",
+  "devDependencies": {
+    "@types/express": "5.0.6",
+    "nodemon": "3.1.14",
+    "tsx": "4.21.0",
+    "typescript": "6.0.2"
+  },
+  "dependencies": {
+    "dotenv": "17.4.2",
+    "express": "5.2.1"
+  }
+}
