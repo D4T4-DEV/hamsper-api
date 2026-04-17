@@ -34,6 +34,7 @@ export const getMyHamsters = async (
 ) => {
   try {
     const userId = req.auth?.id;
+
     if (!userId) {
       throw new AppError(
         "La autenticacion no contiene los datos necesarios",
@@ -61,6 +62,7 @@ export const createHamster = async (
   next: NextFunction,
 ) => {
   try {
+    const { name, breed, coat_type, coat_color, age } = req.validatedData?.body;
     const userId = req.auth?.id;
     if (!userId) {
       throw new AppError(
@@ -74,7 +76,11 @@ export const createHamster = async (
 
     const hamsterCreated = await hamsterService.create({
       owner_id: userId,
-      ...req.validatedData?.body,
+      name,
+      breed,
+      coat_type,
+      coat_color,
+      age,
     });
 
     return res.status(201).json(hamsterCreated.toClient());
@@ -90,24 +96,28 @@ export const updateHamster = async (
   next: NextFunction,
 ) => {
   try {
+    const { name, breed, coat_type, coat_color, age } = req.validatedData?.body;
+    const { hamsterId } = req.validatedData?.params;
     const userId = req.auth?.id;
+
     if (!userId) {
       throw new AppError(
         "La autenticacion no contiene los datos necesarios",
         400,
       );
     }
-    const { hamsterId } = req.validatedData?.params;
 
     console.info(`--- Operativa: Actualizar hamster ---`);
     console.info(`ID a modificar: ${hamsterId}`);
     console.info("Nuevos datos:", req.validatedData?.body);
 
-    const hamsterUpdated = await hamsterService.update(
-      hamsterId,
-      userId,
-      req.validatedData?.body,
-    );
+    const hamsterUpdated = await hamsterService.update(hamsterId, userId, {
+      name,
+      breed,
+      coat_type,
+      coat_color,
+      age,
+    });
 
     return res.status(200).json(hamsterUpdated?.toClient());
   } catch (error) {
@@ -122,14 +132,15 @@ export const deleteHamster = async (
   next: NextFunction,
 ) => {
   try {
+    const { hamsterId } = req.validatedData?.params;
     const userId = req.auth?.id;
+
     if (!userId) {
       throw new AppError(
         "La autenticacion no contiene los datos necesarios",
         400,
       );
     }
-    const { hamsterId } = req.validatedData?.params;
 
     console.info(`--- Operativa: Eliminar hamster ---`);
     console.info(`ID a eliminar: ${hamsterId}`);
