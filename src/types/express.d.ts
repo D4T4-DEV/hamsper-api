@@ -7,6 +7,10 @@ declare global {
         query: any;
         params: any;
       };
+      // Propiedades para identificacion de un usuario con api key
+      auth?: {
+        id: string;
+      };
     }
   }
 }
