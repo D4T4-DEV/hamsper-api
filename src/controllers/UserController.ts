@@ -16,7 +16,7 @@ export const createUser = async (
       email,
     });
 
-    return res.status(201).json(user);
+    return res.status(201).json(user?.toClient());
   } catch (error) {
     console.error("Error en createUser:", error);
     next(error);

@@ -12,9 +12,7 @@ export class UserService {
    * Registra un nuevo usuario y genera su API Key inicial.
    * Retorna el objeto User y la llave plana (solo se ve una vez).
    */
-  async createUser(
-    data: Partial<UserPayload>,
-  ): Promise<{ user: User; plainApiKey: string } | null> {
+  async createUser(data: Partial<UserPayload>): Promise<User | null> {
     const client = await this.pool.connect();
 
     try {
@@ -52,13 +50,16 @@ export class UserService {
       // Si todo llegó hasta aquí sin errores, confirmamos en la DB
       await client.query("COMMIT");
 
-      return {
-        user: newUser,
-        plainApiKey: plainApiKey, // Enviamos la llave "limpia" para mostrarla al usuario
-      };
-    } catch (error) {
+      return new User({
+        ...newUser,
+        api_key: plainApiKey,
+      });
+    } catch (error: any) {
       // Si algo falló (email duplicado, error de red, etc.), deshacemos todo
       await client.query("ROLLBACK");
+      if (error.code === "23505") {
+        throw new AppError("El correo ya está registrado", 409);
+      }
       console.error("Error en UserService.createUser:", error);
       throw error;
     } finally {

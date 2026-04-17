@@ -41,10 +41,16 @@ export class HamsterService {
    */
   async create(data: Partial<HamsterPayload>): Promise<Hamster> {
     const query = `
+    WITH inserted AS (
       INSERT INTO hamsters (user_id, name, age, breed, coat_type, coat_color)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
+    )
+    SELECT i.*, u.full_name as owner_name
+    FROM inserted i
+    JOIN users u ON i.user_id = u.id
     `;
+
     const values = [
       data.owner_id,
       data.name,
